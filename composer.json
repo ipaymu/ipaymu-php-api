@@ -1,0 +1,40 @@
+{
+  "name": "ipaymu/ipaymu-php-api",
+  "description": "iPaymu-PHP API Package Library",
+  "type": "library",
+  "require-dev": {
+    "fzaninotto/faker": "^1.9@dev",
+    "mockery/mockery": "^1.2.3",
+    "phpunit/phpunit": "^8.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "iPaymu\\": "iPaymu/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "iPaymu\\Tests\\": "tests/"
+    }
+  },
+  "license": "GPL-3.0",
+  "authors": [
+    {
+      "name": "iPaymu X Dev Fintech",
+      "email": "support@ipaymu.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "config": {
+    "sort-packages": true
+  },
+  "require": {
+    "ext-curl": "*",
+    "php": ">=5.3.0"
+  },
+  "scripts": {
+    "test": [
+      "@php vendor/bin/phpunit -c ./ --color"
+    ]
+  }
+}
