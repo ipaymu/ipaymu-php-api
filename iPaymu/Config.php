@@ -38,8 +38,12 @@ class Config
     {
         if ($production) {
             $base = 'https://my.ipaymu.com/api/v2';
+            $this->va = '000001';
+            $this->apikey = 'xxxxxx';
         } else {
             $base = 'https://sandbox.ipaymu.com/api/v2';
+            $this->va = '11111';
+            $this->apikey = 'fffffff';
         }
         /**
          * General API

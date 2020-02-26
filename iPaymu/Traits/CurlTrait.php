@@ -10,6 +10,7 @@ use iPaymu\Exceptions\ApiKeyInvalid;
 
 trait CurlTrait
 {
+
     /**
      * @param $config
      * @param $params
@@ -18,18 +19,22 @@ trait CurlTrait
      *
      * @return mixed
      */
-    function genSignature($data)
+    function genSignature($data, $credentials)
     {
-
-        $signature = $data;
+        $body = json_encode($data, JSON_UNESCAPED_SLASHES);
+        $requestBody  = strtolower(hash('sha256', $body));
+        $secret       = $credentials['apikey'];
+        $va           = $credentials['va'];
+        $stringToSign = 'POST:' . $va . ':' . $requestBody . ':' . $secret;
+        $signature    = hash_hmac('sha256', $stringToSign, $secret);
 
         return $signature;
     }
 
-    public function request($config, $params)
+    public function request($config, $params, $credentials)
     {
-        $signature = $this->genSignature($params);
-
+        // $this->config = new Config();
+        $signature = $this->genSignature($params, $credentials);
         $params_string = http_build_query($params);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $config);
@@ -40,7 +45,7 @@ trait CurlTrait
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             "Content-Type" => "application/json",
             "signature" => $signature,
-            "va" => $params['va'],
+            "va" => $credentials['va'],
             "timestamp" => date('Ymdhis')
         ));
         $request = curl_exec($ch);

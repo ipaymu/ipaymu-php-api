@@ -201,6 +201,9 @@ class iPaymu
         $response = $this->request($this->config->balance, [
             'key'    => $this->apiKey,
             'format' => 'json',
+        ], [
+            'va' => $this->config->va,
+            'apikey' => $this->config->apikey,
         ]);
 
         return $response;
@@ -215,6 +218,10 @@ class iPaymu
             'key' => $this->apiKey,
             'id'  => $id,
             'format' => 'json',
+        ],
+        [
+            'va' => $this->config->va,
+            'apikey' => $this->config->apikey,
         ]);
 
         return $response;
@@ -237,6 +244,10 @@ class iPaymu
             'ureturn' => $this->ureturn,
             'ucancel' => $this->ucancel,
             'format' => 'json',
+        ],
+        [
+            'va' => $this->config->va,
+            'apikey' => $this->config->apikey,
         ]);
 
         return $response;
@@ -257,6 +268,10 @@ class iPaymu
             'email' => $this->buyer['email'],
             'active' => $this->expired,
             'format' => 'json',
+        ],
+        [
+            'va' => $this->config->va,
+            'apikey' => $this->config->apikey,
         ]);
 
         return $response;
@@ -300,6 +315,10 @@ class iPaymu
             'comment' => $this->comment,
             'reference' => $this->referenceid,
             'format' => 'json',
+        ],
+        [
+            'va' => $this->config->va,
+            'apikey' => $this->config->apikey,
         ]);
 
         return $response;
@@ -319,6 +338,10 @@ class iPaymu
             'notifyUrl' => $this->unotify,
             'expired' => $this->expired,
             'format' => 'json',
+        ],
+        [
+            'va' => $this->config->va,
+            'apikey' => $this->config->apikey,
         ]);
 
         return $response;
