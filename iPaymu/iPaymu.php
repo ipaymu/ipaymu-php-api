@@ -5,14 +5,20 @@
  */
 
 namespace iPaymu;
-
+require_once dirname(__FILE__) . '/Traits/CurlTrait.php';
+require_once dirname(__FILE__) . '/Config.php';
+// require_once 'iPaymu/Traits/CurlTrait.php';
 use iPaymu\Exceptions\ApiKeyInvalid;
 use iPaymu\Exceptions\ApiKeyNotFound;
-use iPaymu\Traits\CurlTrait;
+
+// use \Traits\CurlTrait;
+// use Config;
+
+// use iPaymu\Traits\CurlTrait;
 
 class iPaymu
 {
-    use CurlTrait;
+    use Traits\CurlTrait;
 
     /**
      * iPaymu Api Key.
@@ -20,6 +26,13 @@ class iPaymu
      * @var
      */
     protected $apiKey;
+
+    /**
+     * iPaymu VA.
+     *
+     * @var
+     */
+    protected $va;
 
     /**
      * @var , Url redirect after payment page
@@ -45,6 +58,11 @@ class iPaymu
      * @var , Store Buyer information
      */
     protected $buyer;
+
+    /**
+     * @var , Store COD information
+     */
+    protected $cod;
 
     /**
      * @var , Store Amount information
@@ -78,10 +96,11 @@ class iPaymu
      *
      * @throws ApiKeyNotFound
      */
-    public function __construct($apiKey = null, $production = false)
+    public function __construct($apiKey = null, $va = null, $production = false)
     {
         $this->config = new Config($production);
         $this->setApiKey($apiKey);
+        $this->setVa($va);
     }
 
     /**
@@ -120,6 +139,12 @@ class iPaymu
         $this->buyer['email'] = $buyer['email'] ?? '';
     }
 
+    public function setCOD($cod)
+    {
+        $this->cod['pickupArea'] = $cod['pickupArea'] ?? '';
+        $this->cod['pickupAddress'] = $cod['pickupAddress'] ?? '';
+    }
+
     /**
      * @param mixed $comments
      */
@@ -146,16 +171,22 @@ class iPaymu
         $productsName = [];
         $productsPrice = [];
         $productsQty = [];
+        $productsDesc = [];
+        $productsWeight = [];
 
         foreach ($this->carts as $cart) {
             $productsName[] = $cart['name'];
             $productsPrice[] = $cart['price'];
             $productsQty[] = $cart['quantity'];
+            $productsDesc[] = $cart['description'];
+            $productsWeight[] = $cart['weight'];
         }
 
         $params['product'] = $productsName;
         $params['price'] = $productsPrice;
         $params['quantity'] = $productsQty;
+        $params['description'] = $productsDesc;
+        $params['weight'] = $productsWeight;
 
         return $params;
     }
@@ -173,6 +204,14 @@ class iPaymu
             throw new ApiKeyNotFound();
         }
         $this->apiKey = $apiKey;
+    }
+
+    public function setVa($va = null)
+    {
+        if ($va == null) {
+            throw new ApiKeyNotFound();
+        }
+        $this->va = $va;
     }
 
     /**
@@ -193,17 +232,29 @@ class iPaymu
         }
     }
 
+     /**
+     * List Trx.
+     */
+    public function historyTransaction($data)
+    {
+        $response = $this->request($this->config->transaction, $data, [
+            'va' => $this->va,
+            'apikey' => $this->apiKey,
+        ]);
+
+        return $response;
+    }
+
     /**
      * Check Balance.
      */
     public function checkBalance()
     {
         $response = $this->request($this->config->balance, [
-            'key'    => $this->apiKey,
-            'format' => 'json',
+            'account' => $this->va
         ], [
-            'va' => $this->config->va,
-            'apikey' => $this->config->apikey,
+            'va' => $this->va,
+            'apikey' => $this->apiKey,
         ]);
 
         return $response;
@@ -220,8 +271,8 @@ class iPaymu
             'format' => 'json',
         ],
         [
-            'va' => $this->config->va,
-            'apikey' => $this->config->apikey,
+            'va' => $this->va,
+            'apikey' => $this->apiKey,
         ]);
 
         return $response;
@@ -230,24 +281,52 @@ class iPaymu
     /**
      * Checkout Transactions.
      */
-    public function checkoutTransaction()
+    public function redirectTransaction()
     {
         $currentCarts = $this->buildCarts();
-        $response =  $this->request($this->config->payment, [
-            'key' => $this->apiKey,
-            'payment' => 'payment',
+        $response =  $this->request($this->config->redirectpayment, [
+            'account' => $this->va,
             'product' => $currentCarts['product'],
+            'qty' => $currentCarts['quantity'],
             'price' => $currentCarts['price'],
-            'quantity' => $currentCarts['quantity'],
-            'comments' => $this->comments,
-            'unotify' => $this->unotify,
-            'ureturn' => $this->ureturn,
-            'ucancel' => $this->ucancel,
-            'format' => 'json',
+            'description' => $currentCarts['description'],
+            'notifyUrl' => $this->unotify,
+            'returnUrl' => $this->ureturn,
+            'cancelUrl' => $this->ucancel,
+            'weight' => $currentCarts['weight'],
+            'dimension' => ["1:1:1"],
+            'name' => $this->buyer['name'],
+            'email' => $this->buyer['email'],
+            'phone' => $this->buyer['phone'],
+            'pickupArea' => $this->cod['pickupArea'],
+            'pickupAddress' => $this->cod['pickupAddress']
         ],
         [
-            'va' => $this->config->va,
-            'apikey' => $this->config->apikey,
+            'va' => $this->va,
+            'apikey' => $this->apiKey,
+        ]);
+
+        return $response;
+    }
+
+    public function directTransaction($data)
+    {
+        $response =  $this->request($this->config->directpayment, [
+            'name' => $this->buyer['name'],
+            'email' => $this->buyer['email'],
+            'phone' => $this->buyer['phone'],
+            'amount' => $data['amount'],
+            'notifyUrl' => $this->unotify,
+            'expired' => $data['expired'],
+            'expiredType' => $data['expiredType'],
+            'comments' => $data['comments'],
+            'referenceId' => $data['referenceId'],
+            'paymentMethod' => $data['paymentMethod'],
+            'paymentChannel' => $data['paymentChannel']
+        ],
+        [
+            'va' => $this->va,
+            'apikey' => $this->apiKey,
         ]);
 
         return $response;
