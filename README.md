@@ -57,9 +57,9 @@ $buyer = $iPaymu->setBuyer([
 $balance = $ipaymu->checkBalance();
 ```
 
-### Check Balance
+### Check Transaction
 ```php
-$balance = $ipaymu->checkBalance();
+$status = $ipaymu->checkTransaction($id);
 ```
 
 ### Add Product to Cart
