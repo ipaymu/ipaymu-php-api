@@ -2,6 +2,7 @@
   "name": "ipaymu/ipaymu-php-api",
   "description": "iPaymu PHP API Package Library",
   "type": "library",
+  "version": "2.0.0",
   "keywords": [
     "ipaymu",
     "payment gateway",

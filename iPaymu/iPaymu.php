@@ -312,6 +312,7 @@ class iPaymu
         $response =  $this->request(
             $this->config->directpayment,
             [
+                'account' => $this->va,
                 'name' => $this->buyer['name'],
                 'email' => $this->buyer['email'],
                 'phone' => $this->buyer['phone'],
