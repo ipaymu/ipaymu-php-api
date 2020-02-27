@@ -1,6 +1,6 @@
 <img width="100" src="https://my.ipaymu.com/asset/images/logo-ipaymu.png">
 
-Official iPaymu-php-api
+The Official iPaymu-php-api
 ==============
 
 This is the Official PHP wrapper/library for iPaymu Payment API, that is compatible with Composer. Visit [https://ipaymu.com](https://ipaymu.com) for more information about the product and see documentation at [https://ipaymu.com/en/api-documentation/](https://ipaymu.com/en/api-documentation/) for more technical details.
@@ -32,6 +32,17 @@ $ipaymu = new iPaymu($apiKey, $va, $production);
 ```
 ### General
 
+
+### Check Balance
+```php
+$balance = $iPaymu->checkBalance();
+```
+
+### Check Transaction
+```php
+$status = $iPaymu->checkTransaction($id);
+```
+
 #### Set URL
 ```php
 $iPaymu->setURL([
@@ -51,18 +62,10 @@ $buyer = $iPaymu->setBuyer([
 ]);
 ```
 
-
-### Check Balance
-```php
-$balance = $ipaymu->checkBalance();
-```
-
-### Check Transaction
-```php
-$status = $ipaymu->checkTransaction($id);
-```
-
-### Add Product to Cart
+### Payment
+There are 2 payment method: Payment Direct & Payment Redirect.
+#### Add Product to Cart
+First, please add product to shopping cart first before using this method
 ```php
 $cart = $iPaymu->addCart([
         'name' => 'product-name',
@@ -71,15 +74,16 @@ $cart = $iPaymu->addCart([
 ]);
 ```
 
-### Pay Cstore
-Please add product to cart first before using this method
+### Payment Direct
+Payment direct method allows you to accept payment on your checkout page directly, this method works for any payment channel except for credit card.
 ```php
 $cart = $iPaymu->payCstore('
         indomaret, 
         alfamart');
 ```
 
-### Pay VA
+### Payment Redirect
+In order accepting credit card, you must use Payment Redirect method. Upon checkout, you will be redirected to iPaymu.com payment page for further payment processing.
 ```php
 $cart = $iPaymu->payVA('
         niaga,
@@ -90,13 +94,4 @@ $cart = $iPaymu->payVA('
         bca');
 ```
 
-### Pay Bank
-```php
-$cart = $iPaymu->payBank('bankbca');
-```
-
-### Check Transaction Status
-```php
-$iPaymu->checkTransaction("transaction-id");
-```
 

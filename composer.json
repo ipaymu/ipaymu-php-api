@@ -1,7 +1,13 @@
 {
   "name": "ipaymu/ipaymu-php-api",
-  "description": "iPaymu-PHP API Package Library",
+  "description": "iPaymu PHP API Package Library",
   "type": "library",
+  "keywords": [
+    "ipaymu",
+    "payment gateway",
+    "indonesia"
+  ],
+  "homepage": "https://github.com/ipaymu/ipaymu-php-api",
   "require-dev": {
     "fzaninotto/faker": "^1.9@dev",
     "mockery/mockery": "^1.2.3",
