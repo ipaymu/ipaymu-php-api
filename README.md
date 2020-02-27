@@ -71,20 +71,20 @@ There are 2 payment method: Payment Direct & Payment Redirect with the following
 • cstore => Convenience Store
 • cod => Cash on Delivery
 
-####paymentChannel
-#####va
+#### paymentChannel
+##### va
 • bag => Bank Artha Graha
 • bni => Bank Negara Indonesia
 • cimb => Bank Cimb Niaga
 • mandiri => Bank Mandiri
 • bri => Bank BRI
 • bca => Bank BCA
-#####banktransfer
+##### banktransfer
 • bca => Bank Central Asia
-#####cstore
+##### cstore
 • indomaret
 • alfamart 
-#####cod
+##### cod
 • rpx
 
 ### Paramaters
