@@ -1,6 +1,6 @@
 <img width="100" src="https://my.ipaymu.com/asset/images/logo-ipaymu.png">
 
-iPaymu-php-api
+Official iPaymu-php-api
 ==============
 
 This is the Official PHP wrapper/library for iPaymu Payment API, that is compatible with Composer. Visit [https://ipaymu.com](https://ipaymu.com) for more information about the product and see documentation at [https://ipaymu.com/en/api-documentation/](https://ipaymu.com/en/api-documentation/) for more technical details.
@@ -15,16 +15,24 @@ composer require ipaymu/ipaymu-php-api
 
 ## Usage
 
+### Requirement
+
+First, get your apikey & va number from iPaymu dashboard.
+
 ### Initialization
 ```php
 <?php
 use iPaymu\iPaymu;
 
-$production = true; // Set to false for sandbox
-$iPaymu = new iPaymu('your-api-key', $production);
-```
+$apiKey = 'your-apikey';
+$va = 'your-va';
+$production = true;
 
-### Set URL
+$ipaymu = new iPaymu($apiKey, $va, $production);
+```
+### General
+
+#### Set URL
 ```php
 $iPaymu->setURL([
     'ureturn' => 'https://your-website/thankyou_page',
@@ -33,24 +41,25 @@ $iPaymu->setURL([
 ]);
 ```
 
-### Set Buyer
+#### Set Buyer
 ```php
-<?php
-$iPaymu->setBuyer([
+
+$buyer = $iPaymu->setBuyer([
     'name' => 'your-name',
     'phone' => 'your-phone',
     'email' => 'your-email',
 ]);
 ```
 
-### Check API Key Validity
+
+### Check Balance
 ```php
-$iPaymu->isApiKeyValid();
+$balance = $ipaymu->checkBalance();
 ```
 
 ### Check Balance
 ```php
-$iPaymu->checkBalance();
+$balance = $ipaymu->checkBalance();
 ```
 
 ### Add Product to Cart

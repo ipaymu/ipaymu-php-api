@@ -8,6 +8,6 @@ namespace iPaymu\Exceptions;
 
 use Exception;
 
-class ApiKeyNotFound extends Exception
+class VANotFound extends Exception
 {
 }

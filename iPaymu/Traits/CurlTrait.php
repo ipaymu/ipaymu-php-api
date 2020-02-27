@@ -1,12 +1,12 @@
 <?php
 
 /**
- * @author Fahdi Labib <fahdilabib@gmail.com>
+ * @author iPaymu X Dev Fintech <support@ipaymu.com>
  */
 
 namespace iPaymu\Traits;
 
-use iPaymu\Exceptions\ApiKeyInvalid;
+use iPaymu\Exceptions\Unauthorized;
 
 trait CurlTrait
 {
@@ -15,7 +15,7 @@ trait CurlTrait
      * @param $config
      * @param $params
      *
-     * @throws ApiKeyInvalid
+     * @throws Unauthorized
      *
      * @return mixed
      */
@@ -67,15 +67,15 @@ trait CurlTrait
     /**
      * @param $response
      *
-     * @throws ApiKeyInvalid
+     * @throws Unauthorized
      *
      * @return mixed
      */
     private function responseHandler($response)
     {
         switch (@$response['Status']) {
-            case '-1001':
-                throw new ApiKeyInvalid();
+            case '401':
+                throw new Unauthorized();
             default:
                 return $response;
         }

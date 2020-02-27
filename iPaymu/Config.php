@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Fahdi Labib <fahdilabib@gmail.com>
+ * @author iPaymu X Dev Fintech <support@ipaymu.com>
  */
 
 namespace iPaymu;
@@ -10,6 +10,7 @@ class Config
 {
     public $balance,
         $transaction,
+        $history,
         $banklist,
         $redirectpayment,
         $directpayment,
@@ -45,7 +46,8 @@ class Config
          * General API
          **/
         $this->balance          = $base . '/balance';
-        $this->transaction      = $base . '/history';
+        $this->transaction      = $base . '/transaction';
+        $this->history          = $base . '/history';
         $this->banklist         = $base . '/banklist';
         /**
          * Payment API 

@@ -1,9 +1,11 @@
 <?php
+
 /**
  * @author Franky So <frankyso.mail@gmail.com>
  */
+
 use Faker\Factory;
-use frankyso\iPaymu\iPaymu;
+use iPaymu\iPaymu;
 use PHPUnit\Framework\TestCase;
 
 /**
