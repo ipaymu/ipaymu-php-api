@@ -61,7 +61,7 @@ class PayController extends Controller
             'pickupAddress' => "Denpasar",
         ]);
 
-        $redirectPayment = $ipaymu->redirectTransaction();
+        $redirect = $ipaymu->redirectPayment();
 
         //payment - direct
         $directData = [
@@ -75,7 +75,7 @@ class PayController extends Controller
 
         ];
 
-        $direct = $ipaymu->directTransaction($directData);
+        $direct = $ipaymu->directPayment($directData);
 
         dd($direct);
     }

@@ -273,7 +273,7 @@ class iPaymu
     /**
      * Checkout Transactions redirect to payment page.
      */
-    public function redirectTransaction()
+    public function redirectPayment()
     {
         $currentCarts = $this->buildCarts();
         $response =  $this->request(
@@ -307,7 +307,7 @@ class iPaymu
     /**
      * Checkout Transactions direct api call.
      */
-    public function directTransaction($data)
+    public function directPayment($data)
     {
         $response =  $this->request(
             $this->config->directpayment,
