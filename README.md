@@ -66,26 +66,26 @@ $buyer = $iPaymu->setBuyer([
 There are 2 payment method: Payment Direct & Payment Redirect with the following parameters:
 #####paymentMethod
 
-• va => Virtual Account
-• banktransfer => Transfer Bank
-• cstore => Convenience Store
-• cod => Cash on Delivery
+- va => Virtual Account
+- banktransfer => Transfer Bank
+- cstore => Convenience Store
+- cod => Cash on Delivery
 
 #### paymentChannel
 ##### va
-• bag => Bank Artha Graha
-• bni => Bank Negara Indonesia
-• cimb => Bank Cimb Niaga
-• mandiri => Bank Mandiri
-• bri => Bank BRI
-• bca => Bank BCA
+- bag => Bank Artha Graha
+- bni => Bank Negara Indonesia
+- cimb => Bank Cimb Niaga
+- mandiri => Bank Mandiri
+- bri => Bank BRI
+- bca => Bank BCA
 ##### banktransfer
-• bca => Bank Central Asia
+- bca => Bank Central Asia
 ##### cstore
-• indomaret
-• alfamart 
+- indomaret
+- alfamart 
 ##### cod
-• rpx
+- rpx
 
 ### Paramaters
 | Parameter Request | Description                                                                                                | Type            | Mandatory |
