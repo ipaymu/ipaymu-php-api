@@ -2,6 +2,7 @@
 
 The Official iPaymu-php-api
 ==============
+[![Latest Stable Version](https://poser.pugx.org/ipaymu/ipaymu-php-api/version)](https://packagist.org/packages/ipaymu/ipaymu-php-api) [![Total Downloads](https://poser.pugx.org/ipaymu/ipaymu-php-api/downloads)](https://packagist.org/packages/ipaymu/ipaymu-php-api) [![Latest Unstable Version](https://poser.pugx.org/ipaymu/ipaymu-php-api/v/unstable)](//packagist.org/packages/ipaymu/ipaymu-php-api) [![License](https://poser.pugx.org/ipaymu/ipaymu-php-api/license)](https://packagist.org/packages/ipaymu/ipaymu-php-api)
 
 This is the Official PHP wrapper/library for iPaymu Payment API, that is compatible with Composer. Visit [https://ipaymu.com](https://ipaymu.com) for more information about the product and see documentation at [https://ipaymu.com/en/api-documentation/](https://ipaymu.com/en/api-documentation/) for more technical details.
 
