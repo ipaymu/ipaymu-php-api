@@ -139,6 +139,8 @@ class iPaymu
     {
         $this->cod['pickupArea'] = $cod['pickupArea'] ?? '';
         $this->cod['pickupAddress'] = $cod['pickupAddress'] ?? '';
+        $this->cod['deliveryArea'] = $cod['deliveryArea'] ?? '';
+        $this->cod['deliveryAddress'] = $cod['deliveryAddress'] ?? '';
     }
 
     /**
@@ -169,13 +171,19 @@ class iPaymu
         $productsQty = [];
         $productsDesc = [];
         $productsWeight = [];
+        $productsLength = [];
+        $productsWidth = [];
+        $productsHeight = [];
 
         foreach ($this->carts as $cart) {
-            $productsName[] = $cart['name'];
-            $productsPrice[] = $cart['price'];
-            $productsQty[] = $cart['quantity'];
-            $productsDesc[] = $cart['description'];
-            $productsWeight[] = $cart['weight'];
+            $productsName[] = $cart['product'] ?? '';
+            $productsPrice[] = $cart['price'] ?? 1;
+            $productsQty[] = $cart['quantity'] ?? 1;
+            $productsDesc[] = $cart['description'] ?? '';
+            $productsWeight[] = $cart['weight'] ?? 1;
+            $productsLength[] = $cart['length'] ?? 1;
+            $productsWidth[] = $cart['width'] ?? 1;
+            $productsHeight[] = $cart['height'] ?? 1;
         }
 
         $params['product'] = $productsName;
@@ -183,6 +191,9 @@ class iPaymu
         $params['quantity'] = $productsQty;
         $params['description'] = $productsDesc;
         $params['weight'] = $productsWeight;
+        $params['length'] = $productsLength;
+        $params['width'] = $productsWidth;
+        $params['height'] = $productsHeight;
 
         return $params;
     }
@@ -309,22 +320,36 @@ class iPaymu
      */
     public function directPayment($data)
     {
+        $currentCarts = $this->buildCarts();
+        $data = [
+            'account' => $this->va,
+            'name' => $this->buyer['name'],
+            'email' => $this->buyer['email'],
+            'phone' => $this->buyer['phone'],
+            'amount' => $data['amount'], //total amount
+            'paymentMethod' => $data['paymentMethod'], //va, cstore
+            'paymentChannel' => $data['paymentChannel'], //bni
+            'notifyUrl' => $this->unotify,
+            'expired' => $data['expired'],
+            'description' => $currentCarts['description'],
+            'referenceId' => $data['referenceId'],
+            'product' => $currentCarts['product'],
+            'qty' => $currentCarts['quantity'],
+            'price' => $currentCarts['price'],
+            'weight' => $currentCarts['weight'],
+            'length' => $currentCarts['length'],
+            'width' => $currentCarts['width'],
+            'height' => $currentCarts['height'],
+            'deliveryArea' => $this->cod['deliveryArea'],
+            'deliveryAddress' => $this->cod['deliveryAddress'],
+            'pickupArea' => $this->cod['pickupArea'],
+            'pickupAddress' => $this->cod['pickupAddress'],
+            'expiredType' => $data['expiredType'] ?? ''
+        ];
+        // dd($data);
         $response =  $this->request(
             $this->config->directpayment,
-            [
-                'account' => $this->va,
-                'name' => $this->buyer['name'],
-                'email' => $this->buyer['email'],
-                'phone' => $this->buyer['phone'],
-                'amount' => $data['amount'],
-                'notifyUrl' => $this->unotify,
-                'expired' => $data['expired'],
-                'expiredType' => $data['expiredType'],
-                'comments' => $data['comments'],
-                'referenceId' => $data['referenceId'],
-                'paymentMethod' => $data['paymentMethod'],
-                'paymentChannel' => $data['paymentChannel']
-            ],
+            $data,
             [
                 'va' => $this->va,
                 'apikey' => $this->apiKey
@@ -333,108 +358,5 @@ class iPaymu
 
         return $response;
     }
-
-    /**
-     * Pay CStore.
-     */
-    public function payCstore($data)
-    {
-        $response =  $this->request(
-            $this->config->cstore,
-            [
-                'account' => $this->va,
-                'name' => $this->buyer['name'],
-                'email' => $this->buyer['email'],
-                'phone' => $this->buyer['phone'],
-                'amount' => $data['amount'],
-                'notifyUrl' => $this->unotify,
-                'expired' => $data['expired'],
-                'expiredType' => $data['expiredType'],
-                'comments' => $data['comments'],
-                'referenceId' => $data['referenceId'],
-                'channel' => $data['paymentChannel']
-            ],
-            [
-                'va' => $this->config->va,
-                'apikey' => $this->config->apikey
-            ]
-        );
-
-        return $response;
-    }
-
-    /**
-     * Pay VA.
-     */
-    public function payVA($store)
-    {
-        switch ($store) {
-            case 'niaga':
-                $url = $this->config->niagava;
-                break;
-            case 'bni':
-                $url = $this->config->bniva;
-                break;
-            case 'bag':
-                $url = $this->config->bagva;
-                break;
-            case 'mandiri':
-                $url = $this->config->mandiriva;
-                break;
-            case 'bri':
-                $url = $this->config->briva;
-                break;
-            case 'bca':
-                $url = $this->config->bcava;
-                break;
-        }
-
-        $response =  $this->request(
-            $url,
-            [
-                'name' => $this->buyer['name'],
-                'phone' => $this->buyer['phone'],
-                'email' => $this->buyer['email'],
-                'amount' => $this->amount,
-                'notifyurl' => $this->unotify,
-                'expired' => $this->expired,
-                'expiredType' => $this->expiredtype,
-                'comments' => $this->comments,
-                'referenceId' => $this->referenceid,
-                'va' => $this->va
-            ],
-            [
-                'va' => $this->config->va,
-                'apikey' => $this->config->apikey,
-            ]
-        );
-
-        return $response;
-    }
-
-    /**
-     * Pay Bank.
-     */
-    public function payBank()
-    {
-        $response =  $this->request(
-            $this->config->bankbca,
-            [
-                'key' => $this->apiKey,
-                'amount' => $this->amount,
-                'name' => $this->buyer['name'],
-                'phone' => $this->buyer['phone'],
-                'email' => $this->buyer['email'],
-                'notifyUrl' => $this->unotify,
-                'expired' => $this->expired,
-                'format' => 'json',
-            ],
-            [
-                'va' => $this->config->va,
-                'apikey' => $this->config->apikey,
-            ]
-        );
-
-        return $response;
-    }
+    
 }

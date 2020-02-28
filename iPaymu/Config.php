@@ -38,7 +38,7 @@ class Config
     public function __construct($production)
     {
         if ($production) {
-            $base = 'https://my.ipaymu.com/api/v2';
+            $base = 'https://my.ipaymu.com/api/v2s';
         } else {
             $base = 'https://sandbox.ipaymu.com/api/v2';
         }
@@ -49,19 +49,13 @@ class Config
         $this->transaction      = $base . '/transaction';
         $this->history          = $base . '/history';
         $this->banklist         = $base . '/banklist';
+
         /**
          * Payment API 
          **/
         $this->redirectpayment  = $base . '/payment';
         $this->directpayment    = $base . '/payment/direct';
-        $this->cstore           = $base . '/payment/cstore';
-        $this->niagava          = $base . '/payment/niagava';
-        $this->bniva            = $base . '/payment/bniva';
-        $this->bagva            = $base . '/payment/bagva';
-        $this->mandiriva        = $base . '/payment/mandiriva';
-        $this->briva            = $base . '/payment/briva';
-        $this->bcava            = $base . '/payment/bcava';
-        $this->bankbca          = $base . '/payment/bcatransfer';
+
         /** 
          * COD Payment
          **/
@@ -69,6 +63,7 @@ class Config
         $this->codrate          = $base . '/cod/getrate';
         $this->codpickup        = $base . '/cod/pickup';
         $this->codpayment       = $base . '/payment/cod';
+
         /**
          * COD Tracking
          **/

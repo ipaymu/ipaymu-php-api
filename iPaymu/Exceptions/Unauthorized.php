@@ -10,4 +10,5 @@ use Exception;
 
 class Unauthorized extends Exception
 {
+    
 }

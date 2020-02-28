@@ -27,20 +27,21 @@ trait CurlTrait
         $va           = $credentials['va'];
         $stringToSign = 'POST:' . $va . ':' . $requestBody . ':' . $secret;
         $signature    = hash_hmac('sha256', $stringToSign, $secret);
+        // dd($body);
         return $signature;
     }
 
     public function request($config, $params, $credentials)
     {
         $signature = $this->genSignature($params, $credentials);
-        $timestamp    = Date('YmdHis');
+        $timestamp = Date('YmdHis');
         $headers = array(
             'Content-Type: application/json',
             'va: ' . $credentials['va'],
             'signature: ' . $signature,
             'timestamp: ' . $timestamp
         );
-
+        // dd($headers);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $config);
         curl_setopt($ch, CURLOPT_HEADER, false);
@@ -50,6 +51,7 @@ trait CurlTrait
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+
         $request = curl_exec($ch);
 
         if ($request === false) {
@@ -75,6 +77,7 @@ trait CurlTrait
     {
         switch (@$response['Status']) {
             case '401':
+                dd($response);
                 throw new Unauthorized();
             default:
                 return $response;

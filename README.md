@@ -65,7 +65,7 @@ $buyer = $iPaymu->setBuyer([
 
 ### Payment
 There are 2 payment method: Payment Direct & Payment Redirect with the following parameters:
-#####paymentMethod
+##### paymentMethod
 
 - va => Virtual Account
 - banktransfer => Transfer Bank
