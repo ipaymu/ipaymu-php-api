@@ -118,7 +118,7 @@ There are 2 payment method: Payment Direct & Payment Redirect with the following
 First, please add product to shopping cart first before using this method
 ```php
 $cart = $iPaymu->addCart([
-        'name' => 'product-name',
+        'product' => 'product-name',
         'quantity' => 'product-quantity',
         'price' => 'product-price',
 ]);
@@ -126,20 +126,20 @@ $cart = $iPaymu->addCart([
 #### Set COD (Only if COD method)
 ```php
 $ipaymu->setCOD([
-        'pickupArea' => "76111",
-        'pickupAddress' => "Denpasar",
+        'deliveryArea' => "76111",
+        'deliveryAddress' => "Denpasar",
 ]);
 ```
 ### Payment Direct
 Payment direct method allows you to accept payment on your checkout page directly, this method works for any payment channel except for credit card.
 ```php
-$cart = $ipaymu->directPayment($directData);
+$payment = $ipaymu->directPayment($directData);
 ```
 
 ### Payment Redirect
 In order accepting credit card, you must use Payment Redirect method. Upon checkout, you will be redirected to iPaymu.com payment page for further payment processing.
 ```php
-$cart = $ipaymu->redirectPayment($directData);
+$payment = $ipaymu->redirectPayment($redirectData);
 ```
 
 

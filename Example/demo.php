@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 require_once base_path('vendor/ipaymu-php-api/iPaymu/iPaymu.php');
 
 use iPaymu\iPaymu;
@@ -11,10 +10,61 @@ use Illuminate\Http\Request;
 class PayController extends Controller
 {
     //
+
+    public function direct()
+    {
+        $apiKey = 'api-key';
+        $va = 'va';
+        $production = false;
+
+        $ipaymu = new iPaymu($apiKey, $va, $production);
+
+        $ipaymu->setURL([
+            'ureturn' => 'https://your-website/thankyou_page',
+            'unotify' => 'https://your-website/notify_page',
+            'ucancel' => 'https://your-website/cancel_page',
+        ]);
+
+        $ipaymu->setBuyer([
+            'name' => 'iPaymu',
+            'phone' => '0851211121',
+            'email' => 'ipaymu@ipaymu.com',
+        ]);
+
+        $ipaymu->addCart([
+            'product' => 'product-name',
+            'quantity' => 1,
+            'price' => 50000,
+            'description' => 'product-desc',
+            'weight' => 1,
+        ]);
+
+        $ipaymu->setCOD([
+            'pickupArea' => "76111",
+            'pickupAddress' => "Denpasar",
+            'deliveryArea' => "76111",
+            'deliveryAddress' => "Denpasar",
+        ]);
+
+         //payment - direct
+        $directData = [
+            'amount' => 50000,
+            'expired' => 24,
+            'expiredType' => 'hours',
+            'referenceId' => 10101011,
+            'paymentMethod' => 'va', //va, cstore
+            'paymentChannel' => 'bni', //bag, mandiri, cimb, bni, 
+
+        ];
+
+        $direct = $ipaymu->directPayment($directData);
+
+        dd($direct);
+    }
     public function payVa()
     {
-        $apiKey = 'QbGcoO0Qds9sQFDmY0MWg1Tq.xtuh1';
-        $va = '1179000899';
+        $apiKey = 'api-key';
+        $va = 'va';
         $production = false;
 
         $ipaymu = new iPaymu($apiKey, $va, $production);
@@ -26,7 +76,7 @@ class PayController extends Controller
         ]);
 
         // balance
-        $balance = $ipaymu->checkBalance();
+        // $balance = $ipaymu->checkBalance();
 
         // list trx
         $data = [
@@ -39,17 +89,17 @@ class PayController extends Controller
             'limit' => -1 // -1 : all trx
         ];
 
-        $listTrx = $ipaymu->historyTransaction($data);
+        // $listTrx = $ipaymu->historyTransaction($data);
 
         //payment - redirect
         $ipaymu->setBuyer([
-            'name' => 'Krisna',
+            'name' => 'iPaymu',
             'phone' => '0851211121',
-            'email' => 'krisna@ipaymu.com',
+            'email' => 'ipaymu@ipaymu.com',
         ]);
 
         $ipaymu->addCart([
-            'name' => 'product-name',
+            'product' => 'product-name',
             'quantity' => 1,
             'price' => 50000,
             'description' => 'product-desc',
@@ -59,24 +109,15 @@ class PayController extends Controller
         $ipaymu->setCOD([
             'pickupArea' => "76111",
             'pickupAddress' => "Denpasar",
+            'deliveryArea' => "76111",
+            'deliveryAddress' => "Denpasar",
         ]);
 
-        $redirect = $ipaymu->redirectPayment();
+        $redirectPayment = $ipaymu->redirectPayment();
 
-        //payment - direct
-        $directData = [
-            'amount' => 50000,
-            'expired' => 24,
-            'expiredType' => 'hours',
-            'comments' => 'comments',
-            'referenceId' => 10101011,
-            'paymentMethod' => 'va', //va, cstore
-            'paymentChannel' => 'bag', //bag, mandiri, cimb, bni, 
+       
 
-        ];
-
-        $direct = $ipaymu->directPayment($directData);
-
-        dd($direct);
+        dd($redirectPayment);
+        
     }
 }
