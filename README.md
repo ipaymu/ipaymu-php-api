@@ -101,8 +101,7 @@ There are 2 payment method: Payment Direct & Payment Redirect with the following
 | notifyUrl         | Return url when payment success                                                                            | string          | Y         |
 | expired           | Expiration in hour                                                                                         | numeric         | N         |
 | description       | Text description                                                                                           | string          | N         |
-| referenceId       | Shopping cart order id                                                                                     | string          | N         |
-| splitCount        | Multi payment (Using Split Payment API)                                                                    | numeric         | N         |
+| referenceId       | Shopping cart order id                                                                                     | string          | N        |
 | product           | Product Name                                                                                               | [array] string  | Y         |
 | qty               | Quantity                                                                                                   | [array] numeric | Y         |
 | price             | Product Price                                                                                              | [array] numeric | Y         |
