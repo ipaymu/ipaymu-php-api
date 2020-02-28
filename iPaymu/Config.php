@@ -14,14 +14,6 @@ class Config
         $banklist,
         $redirectpayment,
         $directpayment,
-        $cstore,
-        $niagava,
-        $bniva,
-        $bagva,
-        $mandiriva,
-        $briva,
-        $bcava,
-        $bankbca,
         $codarea,
         $codrate,
         $codpickup,
@@ -38,7 +30,7 @@ class Config
     public function __construct($production)
     {
         if ($production) {
-            $base = 'https://my.ipaymu.com/api/v2s';
+            $base = 'https://my.ipaymu.com/api/v2';
         } else {
             $base = 'https://sandbox.ipaymu.com/api/v2';
         }
