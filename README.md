@@ -91,11 +91,11 @@ There are 2 payment method: Payment Direct & Payment Redirect with the following
 ### Paramaters
 | Parameter Request | Description                                                                                                | Type            | Mandatory |
 | ----------------- | ---------------------------------------------------------------------------------------------------------- | --------------- | --------- |
-| account           |                                                                                                            | numeric         | Y         |
-| name              |                                                                                                            | string          | Y         |
-| email             |                                                                                                            | string          | Y         |
-| phone             |                                                                                                            | numeric         | Y         |
-| amount            |                                                                                                            | numeric         | Y         |
+| account           | VA Number                                                                                                  | numeric         | Y         |
+| name              | Customer Name                                                                                              | string          | Y         |
+| email             | Customer E-mail                                                                                            | string          | Y         |
+| phone             | Customer Phone                                                                                             | numeric         | Y         |
+| amount            | Total Amount (price * qty)                                                                                 | numeric         | Y         |
 | paymentMethod     | va, banktransfer, cstore, cod                                                                              | string          | Y         |
 | paymentChannel    | <p>"**va:**" bag, bni, cimb, mandiri, bri, bca</p><p>"**cstore:**" indomaret, alfamart  </p>"**cod:**" rpx | string          | Y         |
 | notifyUrl         | Return url when payment success                                                                            | string          | Y         |
