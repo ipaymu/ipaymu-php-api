@@ -1,6 +1,6 @@
 <?php
 
-use frankyso\iPaymu\iPaymu;
+use iPaymu\iPaymu;
 use PHPUnit\Framework\TestCase;
 
 /**
