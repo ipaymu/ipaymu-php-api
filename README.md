@@ -101,7 +101,7 @@ There are 2 payment method: Payment Direct & Payment Redirect with the following
 | notifyUrl         | Return url when payment success                                                                            | string          | Y         |
 | expired           | Expiration in hour                                                                                         | numeric         | N         |
 | description       | Text description                                                                                           | string          | N         |
-| referenceId       | Shopping cart order id                                                                                     | string          | N        |
+| referenceId       | Shopping cart order id                                                                                     | string          | N         |
 | product           | Product Name                                                                                               | [array] string  | Y         |
 | qty               | Quantity                                                                                                   | [array] numeric | Y         |
 | price             | Product Price                                                                                              | [array] numeric | Y         |
@@ -133,13 +133,13 @@ $ipaymu->setCOD([
 ### Payment Direct
 Payment direct method allows you to accept payment on your checkout page directly, this method works for any payment channel except for credit card.
 ```php
-$payment = $ipaymu->directPayment($directData);
+$payment = $iPaymu->directPayment($directData);
 ```
 
 ### Payment Redirect
 In order accepting credit card, you must use Payment Redirect method. Upon checkout, you will be redirected to iPaymu.com payment page for further payment processing.
 ```php
-$payment = $ipaymu->redirectPayment($redirectData);
+$payment = $iPaymu->redirectPayment($redirectData);
 ```
 
 
