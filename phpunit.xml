@@ -28,6 +28,8 @@
     </filter>
 
     <php>
-        <server name="APP_KEY" value="VfjU5xL8avjYBiZMPzVAFKMXNp35d0"/>
+        <server name="production" value="false"/>
+        <server name="apiKey" value="QbGcoO0Qds9sQFDmY0MWg1Tq.xtuh123"/>
+        <server name="va" value="1179000899"/>
     </php>
 </phpunit>
