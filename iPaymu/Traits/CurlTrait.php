@@ -27,7 +27,7 @@ trait CurlTrait
         $va           = $credentials['va'];
         $stringToSign = 'POST:' . $va . ':' . $requestBody . ':' . $secret;
         $signature    = hash_hmac('sha256', $stringToSign, $secret);
-        // dd($body);
+
         return $signature;
     }
 
@@ -41,7 +41,7 @@ trait CurlTrait
             'signature: ' . $signature,
             'timestamp: ' . $timestamp
         );
-        // dd($headers);
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $config);
         curl_setopt($ch, CURLOPT_HEADER, false);
@@ -77,7 +77,6 @@ trait CurlTrait
     {
         switch (@$response['Status']) {
             case '401':
-                dd($response);
                 throw new Unauthorized();
             default:
                 return $response;

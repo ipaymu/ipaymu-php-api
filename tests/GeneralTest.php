@@ -9,6 +9,6 @@ final class GeneralTest extends TestCase
     public function testCheckBalance()
     {
         $iPaymu = new iPaymu($_SERVER['apiKey'], $_SERVER['va'], $_SERVER['production']);
-        $this->assertArrayHasKey('Saldo', $iPaymu->checkBalance());
+        $this->assertArrayHasKey('Data', $iPaymu->checkBalance());
     }
 }

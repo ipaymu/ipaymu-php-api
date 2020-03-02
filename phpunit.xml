@@ -19,10 +19,10 @@
 
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="false">
-            <directory suffix=".php">src/</directory>
+            <directory suffix=".php">iPaymu/</directory>
             <exclude>
-                <file>src/Console/Kernel.php</file>
-                <file>src/Exceptions/Handler.php</file>
+                <file>iPaymu/Console/Kernel.php</file>
+                <file>iPaymu/Exceptions/Handler.php</file>
             </exclude>
         </whitelist>
     </filter>

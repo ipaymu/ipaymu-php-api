@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 require_once base_path('vendor/ipaymu-php-api/iPaymu/iPaymu.php');
 
 use iPaymu\iPaymu;
@@ -46,7 +47,7 @@ class PayController extends Controller
             'deliveryAddress' => "Denpasar",
         ]);
 
-         //payment - direct
+        //payment - direct
         $directData = [
             'amount' => 50000,
             'expired' => 24,
@@ -58,8 +59,6 @@ class PayController extends Controller
         ];
 
         $direct = $ipaymu->directPayment($directData);
-
-        dd($direct);
     }
     public function payVa()
     {
@@ -75,10 +74,6 @@ class PayController extends Controller
             'ucancel' => 'https://your-website/cancel_page',
         ]);
 
-        // balance
-        // $balance = $ipaymu->checkBalance();
-
-        // list trx
         $data = [
             'type' => 11,
             'status' => 1,
@@ -89,9 +84,6 @@ class PayController extends Controller
             'limit' => -1 // -1 : all trx
         ];
 
-        // $listTrx = $ipaymu->historyTransaction($data);
-
-        //payment - redirect
         $ipaymu->setBuyer([
             'name' => 'iPaymu',
             'phone' => '0851211121',
@@ -114,10 +106,5 @@ class PayController extends Controller
         ]);
 
         $redirectPayment = $ipaymu->redirectPayment();
-
-       
-
-        dd($redirectPayment);
-        
     }
 }

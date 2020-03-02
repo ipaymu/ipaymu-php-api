@@ -160,6 +160,36 @@ class iPaymu
     }
 
     /**
+     * @param Product $product
+     */
+    public function add($id, $product, $productsPrice, $productsQty, $productsDesc, $productsWeight, $productsLength, $productsWidth, $productsHeight)
+    {
+        $this->carts[] = [
+            'id' => $id,
+            'product' => $product,
+            'price' => $productsPrice,
+            'quantity' => $productsQty,
+            'description' => $productsDesc,
+            'weight' => $productsWeight,
+            'length' => $productsLength,
+            'width' => $productsWidth,
+            'height' => $productsHeight
+        ];
+    }
+
+    /**
+     * @param $id
+     */
+    public function remove($id)
+    {
+        foreach ($this->carts as $key => $cart) {
+            if ($cart['id'] == $id) {
+                unset($this->carts[$key]);
+            }
+        }
+    }
+
+    /**
      * @param string $comments
      *
      * @return mixed
@@ -326,9 +356,9 @@ class iPaymu
             'name' => $this->buyer['name'],
             'email' => $this->buyer['email'],
             'phone' => $this->buyer['phone'],
-            'amount' => $data['amount'], //total amount
-            'paymentMethod' => $data['paymentMethod'], //va, cstore
-            'paymentChannel' => $data['paymentChannel'], //bni
+            'amount' => $data['amount'],
+            'paymentMethod' => $data['paymentMethod'],
+            'paymentChannel' => $data['paymentChannel'],
             'notifyUrl' => $this->unotify,
             'expired' => $data['expired'],
             'description' => $currentCarts['description'],
@@ -346,7 +376,7 @@ class iPaymu
             'pickupAddress' => $this->cod['pickupAddress'],
             'expiredType' => $data['expiredType'] ?? ''
         ];
-        // dd($data);
+
         $response =  $this->request(
             $this->config->directpayment,
             $data,
@@ -358,5 +388,4 @@ class iPaymu
 
         return $response;
     }
-    
 }
