@@ -29,7 +29,7 @@
 
     <php>
         <server name="production" value="false"/>
-        <server name="apiKey" value="QbGcoO0Qds9sQFDmY0MWg1Tq.xtuh123"/>
+        <server name="apiKey" value="QbGcoO0Qds9sQFDmY0MWg1Tq.xtuh1"/>
         <server name="va" value="1179000899"/>
     </php>
 </phpunit>
