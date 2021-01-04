@@ -333,8 +333,8 @@ class iPaymu
                 'name' => $this->buyer['name'],
                 'email' => $this->buyer['email'],
                 'phone' => $this->buyer['phone'],
-                'pickupArea' => isset($this->cod['pickupArea']) ? $this->cod['pickupArea'] : '',
-                'pickupAddress' => isset($this->cod['pickupAddress']) ? $this->cod['pickupAddress'] : ''
+                'pickupArea' => isset($this->cod['pickupArea']) ? $this->cod['pickupArea'] : null,
+                'pickupAddress' => isset($this->cod['pickupAddress']) ? $this->cod['pickupAddress'] : null
             ],
             [
                 'va' => $this->va,
