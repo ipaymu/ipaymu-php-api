@@ -76,7 +76,7 @@ final class CartTest extends TestCase
             'paymentMethod' => 'va', //va, cstore
             'paymentChannel' => 'bni', //bag, mandiri, cimb, bni, 
         ];
-        //$iPaymu->directPayment($directData);
+
         $directPayment = $iPaymu->directPayment($directData);
     }
     public function testreDirectPayment()
@@ -94,7 +94,7 @@ final class CartTest extends TestCase
             'paymentMethod' => 'va', //va, cstore
             'paymentChannel' => 'bni', //bag, mandiri, cimb, bni, 
         ];
-        //$iPaymu->directPayment($directData);
+
         $redirectPayment = $iPaymu->redirectPayment();
     }
 }
