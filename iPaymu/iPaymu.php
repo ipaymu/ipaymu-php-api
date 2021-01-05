@@ -183,7 +183,7 @@ class iPaymu
     public function remove($id)
     {
         foreach ($this->carts as $key => $cart) {
-            if ($cart['id'] == $id) {
+            if (isset($cart['id']) == $id) {
                 unset($this->carts[$key]);
             }
         }
@@ -330,11 +330,11 @@ class iPaymu
                 'cancelUrl' => $this->ucancel,
                 'weight' => $currentCarts['weight'],
                 'dimension' => ["1:1:1"],
-                'name' => $this->buyer['name'],
-                'email' => $this->buyer['email'],
-                'phone' => $this->buyer['phone'],
-                'pickupArea' => $this->cod['pickupArea'],
-                'pickupAddress' => $this->cod['pickupAddress']
+                'name' => isset($this->buyer['name']),
+                'email' => isset($this->buyer['email']),
+                'phone' => isset($this->buyer['phone']),
+                'pickupArea' => isset($this->cod['pickupArea']),
+                'pickupAddress' => isset($this->cod['pickupAddress'])
             ],
             [
                 'va' => $this->va,
@@ -353,9 +353,9 @@ class iPaymu
         $currentCarts = $this->buildCarts();
         $data = [
             'account' => $this->va,
-            'name' => $this->buyer['name'],
-            'email' => $this->buyer['email'],
-            'phone' => $this->buyer['phone'],
+            'name' => isset($this->buyer['name']),
+            'email' => isset($this->buyer['email']),
+            'phone' => isset($this->buyer['phone']),
             'amount' => $data['amount'],
             'paymentMethod' => $data['paymentMethod'],
             'paymentChannel' => $data['paymentChannel'],
@@ -370,10 +370,10 @@ class iPaymu
             'length' => $currentCarts['length'],
             'width' => $currentCarts['width'],
             'height' => $currentCarts['height'],
-            'deliveryArea' => $this->cod['deliveryArea'],
-            'deliveryAddress' => $this->cod['deliveryAddress'],
-            'pickupArea' => $this->cod['pickupArea'],
-            'pickupAddress' => $this->cod['pickupAddress'],
+            'deliveryArea' => isset($this->cod['deliveryArea']),
+            'deliveryAddress' => isset($this->cod['deliveryAddress']),
+            'pickupArea' => isset($this->cod['pickupArea']),
+            'pickupAddress' => isset($this->cod['pickupAddress']),
             'expiredType' => $data['expiredType'] ?? ''
         ];
 

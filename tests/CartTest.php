@@ -61,22 +61,40 @@ final class CartTest extends TestCase
         ]);
     }
 
-    // public function testDirectPayment()
-    // {
-    //     $iPaymu = new iPaymu($_SERVER['apiKey'], $_SERVER['va'], $_SERVER['production']);
-    //     $this->testBuyer();
-    //     $this->testURL();
-    //     $this->testAddProductToCart();
-    //     $this->testCOD();
-    //     $directData = [
-    //         'amount' => 50000,
-    //         'expired' => 24,
-    //         'expiredType' => 'hours',
-    //         'referenceId' => 10101011,
-    //         'paymentMethod' => 'va', //va, cstore
-    //         'paymentChannel' => 'bni', //bag, mandiri, cimb, bni, 
-    //     ];
-    //     //$iPaymu->directPayment($directData);
-    //     $redirectPayment = $iPaymu->redirectPayment();
-    // }
+    public function testDirectPayment()
+    {
+        $iPaymu = new iPaymu($_SERVER['apiKey'], $_SERVER['va'], $_SERVER['production']);
+        $this->testBuyer();
+        $this->testURL();
+        $this->testAddProductToCart();
+        $this->testCOD();
+        $directData = [
+            'amount' => 50000,
+            'expired' => 24,
+            'expiredType' => 'hours',
+            'referenceId' => 10101011,
+            'paymentMethod' => 'va', //va, cstore
+            'paymentChannel' => 'bni', //bag, mandiri, cimb, bni, 
+        ];
+        //$iPaymu->directPayment($directData);
+        $directPayment = $iPaymu->directPayment($directData);
+    }
+    public function testreDirectPayment()
+    {
+        $iPaymu = new iPaymu($_SERVER['apiKey'], $_SERVER['va'], $_SERVER['production']);
+        $this->testBuyer();
+        $this->testURL();
+        $this->testAddProductToCart();
+        $this->testCOD();
+        $directData = [
+            'amount' => 50000,
+            'expired' => 24,
+            'expiredType' => 'hours',
+            'referenceId' => 10101011,
+            'paymentMethod' => 'va', //va, cstore
+            'paymentChannel' => 'bni', //bag, mandiri, cimb, bni, 
+        ];
+        //$iPaymu->directPayment($directData);
+        $redirectPayment = $iPaymu->redirectPayment();
+    }
 }
