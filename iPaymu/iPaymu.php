@@ -328,13 +328,13 @@ class iPaymu
                 'notifyUrl' => $this->unotify,
                 'returnUrl' => $this->ureturn,
                 'cancelUrl' => $this->ucancel,
-                'weight' => $currentCarts['weight'],
+                'weight' => $currentCarts['weight'] ?? '',
                 'dimension' => ["1:1:1"],
-                'name' => isset($this->buyer['name']),
-                'email' => isset($this->buyer['email']),
-                'phone' => isset($this->buyer['phone']),
-                'pickupArea' => isset($this->cod['pickupArea']),
-                'pickupAddress' => isset($this->cod['pickupAddress'])
+                'name' => $this->buyer['name'] ?? '',
+                'email' => $this->buyer['email'] ?? '',
+                'phone' => $this->buyer['phone'] ?? '',
+                'pickupArea' => $this->cod['pickupArea'] ?? '',
+                'pickupAddress' => $this->cod['pickupAddress'] ?? ''
             ],
             [
                 'va' => $this->va,
@@ -353,14 +353,14 @@ class iPaymu
         $currentCarts = $this->buildCarts();
         $data = [
             'account' => $this->va,
-            'name' => isset($this->buyer['name']),
-            'email' => isset($this->buyer['email']),
-            'phone' => isset($this->buyer['phone']),
+            'name' => $this->buyer['name'] ?? '',
+            'email' => $this->buyer['email'] ?? '',
+            'phone' => $this->buyer['phone'] ?? '',
             'amount' => $data['amount'],
             'paymentMethod' => $data['paymentMethod'],
             'paymentChannel' => $data['paymentChannel'],
             'notifyUrl' => $this->unotify,
-            'expired' => $data['expired'],
+            'expired' => $data['expired'] ?? '1',
             'description' => $currentCarts['description'],
             'referenceId' => $data['referenceId'],
             'product' => $currentCarts['product'],
@@ -370,11 +370,11 @@ class iPaymu
             'length' => $currentCarts['length'],
             'width' => $currentCarts['width'],
             'height' => $currentCarts['height'],
-            'deliveryArea' => isset($this->cod['deliveryArea']),
-            'deliveryAddress' => isset($this->cod['deliveryAddress']),
-            'pickupArea' => isset($this->cod['pickupArea']),
-            'pickupAddress' => isset($this->cod['pickupAddress']),
-            'expiredType' => $data['expiredType'] ?? ''
+            'deliveryArea' => $this->cod['deliveryArea'] ?? '',
+            'deliveryAddress' => $this->cod['deliveryAddress'] ?? '',
+            'pickupArea' => $this->cod['pickupArea'] ?? '',
+            'pickupAddress' => $this->cod['pickupAddress'] ?? '',
+            'expiredType' => $data['expiredType'] ?? 'days'
         ];
 
         $response =  $this->request(
