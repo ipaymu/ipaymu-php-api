@@ -206,25 +206,37 @@ class iPaymu
         $productsHeight = [];
 
         foreach ($this->carts as $cart) {
-            $productsName[] = $cart['product'] ?? '';
+            $productsName[] = $cart['product'] ?? null;
             $productsPrice[] = $cart['price'] ?? 1;
             $productsQty[] = $cart['quantity'] ?? 1;
-            $productsDesc[] = $cart['description'] ?? '';
+            $productsDesc[] = $cart['description'] ?? null;
             $productsWeight[] = $cart['weight'] ?? 1;
             $productsLength[] = $cart['length'] ?? 1;
             $productsWidth[] = $cart['width'] ?? 1;
             $productsHeight[] = $cart['height'] ?? 1;
         }
 
-        $params['product'] = $productsName;
-        $params['price'] = $productsPrice;
-        $params['quantity'] = $productsQty;
-        $params['description'] = $productsDesc;
-        $params['weight'] = $productsWeight;
-        $params['length'] = $productsLength;
-        $params['width'] = $productsWidth;
-        $params['height'] = $productsHeight;
+        if(isset($this->carts) && count($this->carts) > 0) {
+            $params['product'] = $productsName;
+            $params['price'] = $productsPrice;
+            $params['quantity'] = $productsQty;
+            $params['description'] = $productsDesc;
+            $params['weight'] = $productsWeight;
+            $params['length'] = $productsLength;
+            $params['width'] = $productsWidth;
+            $params['height'] = $productsHeight;
+        } else {
+            $params['product'] = null;
+            $params['price'] = null;
+            $params['quantity'] = null;
+            $params['description'] = null;
+            $params['weight'] = null;
+            $params['length'] = null;
+            $params['width'] = null;
+            $params['height'] = null;
 
+        }
+        
         return $params;
     }
 
