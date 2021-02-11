@@ -373,7 +373,7 @@ class iPaymu
             'deliveryArea' => $this->cod['deliveryArea'] ?? null,
             'deliveryAddress' => $this->cod['deliveryAddress'] ?? null,
             'pickupArea' => $this->cod['pickupArea'] ?? null,
-            'pickupAddress' => $this->cod['pickupAddress'] ?? nulll,
+            'pickupAddress' => $this->cod['pickupAddress'] ?? null,
             'expiredType' => $data['expiredType'] ?? 'days'
         ];
 
