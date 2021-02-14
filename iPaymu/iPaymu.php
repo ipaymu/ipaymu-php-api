@@ -313,7 +313,9 @@ class iPaymu
     {
         $response =  $this->request(
             $this->config->transaction,
-            $id,
+            [
+                'transactionId' => $id
+            ],
             [
                 'va' => $this->va,
                 'apikey' => $this->apiKey
