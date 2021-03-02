@@ -46,7 +46,12 @@ trait CurlTrait
         curl_setopt($ch, CURLOPT_URL, $config);
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_POST, count($params));
+        if(is_array($params)) {
+            curl_setopt($ch, CURLOPT_POST, count($params));
+        } else {
+            curl_setopt($ch, CURLOPT_POST, 1);
+        }
+
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

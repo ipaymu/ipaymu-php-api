@@ -206,37 +206,25 @@ class iPaymu
         $productsHeight = [];
 
         foreach ($this->carts as $cart) {
-            $productsName[] = $cart['product'] ?? null;
+            $productsName[] = $cart['product'] ?? '';
             $productsPrice[] = $cart['price'] ?? 1;
             $productsQty[] = $cart['quantity'] ?? 1;
-            $productsDesc[] = $cart['description'] ?? null;
+            $productsDesc[] = $cart['description'] ?? '';
             $productsWeight[] = $cart['weight'] ?? 1;
             $productsLength[] = $cart['length'] ?? 1;
             $productsWidth[] = $cart['width'] ?? 1;
             $productsHeight[] = $cart['height'] ?? 1;
         }
 
-        if(isset($this->carts) && count($this->carts) > 0) {
-            $params['product'] = $productsName;
-            $params['price'] = $productsPrice;
-            $params['quantity'] = $productsQty;
-            $params['description'] = $productsDesc;
-            $params['weight'] = $productsWeight;
-            $params['length'] = $productsLength;
-            $params['width'] = $productsWidth;
-            $params['height'] = $productsHeight;
-        } else {
-            $params['product'] = null;
-            $params['price'] = null;
-            $params['quantity'] = null;
-            $params['description'] = null;
-            $params['weight'] = null;
-            $params['length'] = null;
-            $params['width'] = null;
-            $params['height'] = null;
+        $params['product'] = $productsName;
+        $params['price'] = $productsPrice;
+        $params['quantity'] = $productsQty;
+        $params['description'] = $productsDesc;
+        $params['weight'] = $productsWeight;
+        $params['length'] = $productsLength;
+        $params['width'] = $productsWidth;
+        $params['height'] = $productsHeight;
 
-        }
-        
         return $params;
     }
 
@@ -313,7 +301,9 @@ class iPaymu
     {
         $response =  $this->request(
             $this->config->transaction,
-            $id,
+            [
+                'transactionId' => $id
+            ],
             [
                 'va' => $this->va,
                 'apikey' => $this->apiKey
@@ -340,8 +330,8 @@ class iPaymu
                 'notifyUrl' => $this->unotify,
                 'returnUrl' => $this->ureturn,
                 'cancelUrl' => $this->ucancel,
-                'weight' => $currentCarts['weight'] ?? null,
-                'dimension' => ["1:1:1"] ?? null,
+                'weight' => $currentCarts['weight'] ?? 1,
+                'dimension' => ["1:1:1"],
                 'name' => $this->buyer['name'] ?? null,
                 'email' => $this->buyer['email'] ?? null,
                 'phone' => $this->buyer['phone'] ?? null,
@@ -373,15 +363,15 @@ class iPaymu
             'paymentChannel' => $data['paymentChannel'],
             'notifyUrl' => $this->unotify,
             'expired' => $data['expired'] ?? '1',
-            'description' => $currentCarts['description'] ?? null,
-            'referenceId' => $data['referenceId'] ?? null,
-            'product' => $currentCarts['product'] ?? null,
-            'qty' => $currentCarts['quantity'] ?? null,
-            'price' => $currentCarts['price'] ?? null,
-            'weight' => $currentCarts['weight'] ?? null,
-            'length' => $currentCarts['length'] ?? null,
-            'width' => $currentCarts['width'] ?? null,
-            'height' => $currentCarts['height'] ?? null,
+            'description' => $currentCarts['description'],
+            'referenceId' => $data['referenceId'],
+            'product' => $currentCarts['product'],
+            'qty' => $currentCarts['quantity'],
+            'price' => $currentCarts['price'],
+            'weight' => $currentCarts['weight'],
+            'length' => $currentCarts['length'],
+            'width' => $currentCarts['width'],
+            'height' => $currentCarts['height'],
             'deliveryArea' => $this->cod['deliveryArea'] ?? null,
             'deliveryAddress' => $this->cod['deliveryAddress'] ?? null,
             'pickupArea' => $this->cod['pickupArea'] ?? null,
