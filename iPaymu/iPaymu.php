@@ -156,7 +156,8 @@ class iPaymu
      */
     public function addCart($cart)
     {
-        $this->carts[count($this->carts)] = $cart;
+        // $this->carts[count($this->carts)] = $cart;
+        $this->carts = $cart;
     }
 
     /**
@@ -166,14 +167,14 @@ class iPaymu
     {
         $this->carts[] = [
             'id' => $id,
-            'product' => $product,
-            'price' => $productsPrice,
-            'quantity' => $productsQty,
-            'description' => $productsDesc,
-            'weight' => $productsWeight,
-            'length' => $productsLength,
-            'width' => $productsWidth,
-            'height' => $productsHeight
+            'product' => trim($product),
+            'price' => trim($productsPrice),
+            'quantity' => trim($productsQty),
+            'description' => trim($productsDesc),
+            'weight' => trim($productsWeight),
+            'length' => trim($productsLength),
+            'width' => trim($productsWidth),
+            'height' => trim($productsHeight)
         ];
     }
 
@@ -196,36 +197,64 @@ class iPaymu
      */
     private function buildCarts()
     {
+        // dd($this->carts);
         $productsName = [];
         $productsPrice = [];
         $productsQty = [];
         $productsDesc = [];
         $productsWeight = [];
-        $productsLength = [];
-        $productsWidth = [];
-        $productsHeight = [];
+        $productDimension = [];
+        $productsLength   = [];
+        $productsWidth    = [];
+        $productsHeight   = [];
 
-        foreach ($this->carts as $cart) {
-            $productsName[] = $cart['product'] ?? '';
-            $productsPrice[] = $cart['price'] ?? 1;
-            $productsQty[] = $cart['quantity'] ?? 1;
-            $productsDesc[] = $cart['description'] ?? '';
-            $productsWeight[] = $cart['weight'] ?? 1;
-            $productsLength[] = $cart['length'] ?? 1;
-            $productsWidth[] = $cart['width'] ?? 1;
-            $productsHeight[] = $cart['height'] ?? 1;
+        if(!empty($this->carts['product'])) {
+            $productsName = array_map('trim', $this->carts['product']);
         }
 
-        $params['product'] = $productsName;
-        $params['price'] = $productsPrice;
-        $params['quantity'] = $productsQty;
-        $params['description'] = $productsDesc;
-        $params['weight'] = $productsWeight;
-        $params['length'] = $productsLength;
-        $params['width'] = $productsWidth;
-        $params['height'] = $productsHeight;
+        if(!empty($this->carts['price'])) {
+            $productsPrice = array_map('trim', $this->carts['price']);
+        }
+
+        if(!empty($this->carts['quantity'])) {
+            $productsQty = array_map('trim', $this->carts['quantity']);
+        }
+
+        if(!empty($this->carts['description'])) {
+            $productsDesc = array_map('trim', $this->carts['description']);
+        }
+
+        if(!empty($this->carts['weight'])) {
+            $productsWeight = array_map('trim', $this->carts['weight']);
+        }
+
+        if(!empty($this->carts['length']) && !empty($this->carts['width']) && !empty($this->carts['height'])) {
+
+            $productsLength = array_map('trim', $this->carts['length']);
+            $productsWidth = array_map('trim', $this->carts['width']);
+            $productsHeight = array_map('trim', $this->carts['height']);
+
+            $countLength = count($this->carts['length']);
+            for($loops = 0; $loops < $countLength; $loops++) {
+                $length  = trim($this->carts['length'][$loops] ?? 0);
+                $width   = trim($this->carts['width'][$loops] ?? 0);
+                $height  = trim($this->carts['height'][$loops] ?? 0);
+                $productDimension[] = $length . ':'  . $width . ':' . $height;
+            }
+        }
+
+        $params['product'] = $productsName ?? null;
+        $params['price'] = $productsPrice ?? null;
+        $params['quantity'] = $productsQty ?? null;
+        $params['description'] = $productsDesc ?? null;
+        $params['weight'] = $productsWeight ?? null;
+        $params['dimension'] = $productDimension ?? null;
+        $params['length']  = $productsLength;
+        $params['width']  = $productsWidth;
+        $params['height']  = $productsHeight;
 
         return $params;
+
     }
 
     /**
@@ -316,7 +345,7 @@ class iPaymu
     /**
      * Checkout Transactions redirect to payment page.
      */
-    public function redirectPayment()
+    public function redirectPayment($paymentData = null)
     {
         $currentCarts = $this->buildCarts();
         $response =  $this->request(
@@ -330,13 +359,17 @@ class iPaymu
                 'notifyUrl' => $this->unotify,
                 'returnUrl' => $this->ureturn,
                 'cancelUrl' => $this->ucancel,
-                'weight' => $currentCarts['weight'] ?? 1,
-                'dimension' => ["1:1:1"],
+                'weight' => $currentCarts['weight'] ?? null,
+                'dimension' => $currentCarts['dimension'] ?? null,
                 'name' => $this->buyer['name'] ?? null,
                 'email' => $this->buyer['email'] ?? null,
                 'phone' => $this->buyer['phone'] ?? null,
                 'pickupArea' => $this->cod['pickupArea'] ?? null,
-                'pickupAddress' => $this->cod['pickupAddress'] ?? null
+                'pickupAddress' => $this->cod['pickupAddress'] ?? null,
+                'buyerName' => $this->buyer['name'] ?? null,
+                'buyerEmail' => $this->buyer['email'] ?? null,
+                'buyerPhone' => $this->buyer['phone'] ?? null,
+                'referenceId' => $paymentData['referenceId'] ?? null
             ],
             [
                 'va' => $this->va,
@@ -362,7 +395,6 @@ class iPaymu
             'paymentMethod' => $data['paymentMethod'],
             'paymentChannel' => $data['paymentChannel'],
             'notifyUrl' => $this->unotify,
-            'expired' => $data['expired'] ?? '1',
             'description' => $currentCarts['description'],
             'referenceId' => $data['referenceId'],
             'product' => $currentCarts['product'],
@@ -376,6 +408,7 @@ class iPaymu
             'deliveryAddress' => $this->cod['deliveryAddress'] ?? null,
             'pickupArea' => $this->cod['pickupArea'] ?? null,
             'pickupAddress' => $this->cod['pickupAddress'] ?? null,
+            'expired' => $data['expired'] ?? '1',
             'expiredType' => $data['expiredType'] ?? 'days'
         ];
 
