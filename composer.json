@@ -36,7 +36,7 @@
   },
   "require": {
     "ext-curl": "*",
-    "php": ">=5.3.0"
+    "php": "^5.6 || ^7.0"
   },
   "scripts": {
     "test": [
