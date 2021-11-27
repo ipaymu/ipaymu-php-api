@@ -17,6 +17,10 @@ jobs:
         # Setup PHP version.
         php-version: '7.0' # default is 8.1
         tools: phpunit, composer:v2
-        run: |
-              composer install
-              composer test
+    - name: Setup PCOV
+      run: |
+        composer install
+        composer require pcov/clobber
+        vendor/bin/pcov clobber
+        composer test
+              
