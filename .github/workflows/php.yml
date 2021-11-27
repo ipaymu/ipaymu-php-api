@@ -21,11 +21,6 @@ jobs:
 
     - name: Install dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-      
-    - name: Setup PCOV
-      run: |
-        composer require pcov/clobber
-        vendor/bin/pcov clobber
         
     - name: Make Test
       run: composer test
