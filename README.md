@@ -138,9 +138,14 @@ First, please add product to shopping cart first before using this method
 
 ```php
 $cart = $iPaymu->addCart([
-        'product' => 'product-name',
-        'quantity' => 'product-quantity',
-        'price' => 'product-price',
+        'product' => ['product 1 ', 'product2 '],
+        'quantity' => ['1', '2'],
+        'price' => ['10000', '50000'],
+        'description' => ['product-desc', 'product-desc 2'],
+        'weight' => [1, 2], //nullable (kilogram)
+        'height' => [10, 10], //nullable (cm)
+        'length' => [30, 40], //nullable (cm)
+        'width'  => [10, 50], //nullable (cm)
 ]);
 ```
 
