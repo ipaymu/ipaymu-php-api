@@ -32,12 +32,15 @@ class PayController extends Controller
             'email' => 'ipaymu@ipaymu.com',
         ]);
 
-        $ipaymu->addCart([
-            'product' => 'product-name',
-            'quantity' => 1,
-            'price' => 50000,
-            'description' => 'product-desc',
-            'weight' => 1,
+        $iPaymu->addCart([
+            'product' => ['product 1 ', 'product2 '],
+            'quantity' => ['1', '2'],
+            'price' => ['10000', '50000'],
+            'description' => ['product-desc', 'product-desc 2'],
+            'weight' => [1, 2], //nullable (kilogram)
+            'height' => [10, 10], //nullable (cm)
+            'length' => [30, 40], //nullable (cm)
+            'width'  => [10, 50], //nullable (cm)
         ]);
 
         $ipaymu->setCOD([
@@ -60,7 +63,8 @@ class PayController extends Controller
 
         $direct = $ipaymu->directPayment($directData);
     }
-    public function payVa()
+    
+    public function redirect()
     {
         $apiKey = 'api-key';
         $va = 'va';
@@ -90,12 +94,15 @@ class PayController extends Controller
             'email' => 'ipaymu@ipaymu.com',
         ]);
 
-        $ipaymu->addCart([
-            'product' => 'product-name',
-            'quantity' => 1,
-            'price' => 50000,
-            'description' => 'product-desc',
-            'weight' => 1,
+       $iPaymu->addCart([
+            'product' => ['product 1 ', 'product2 '],
+            'quantity' => ['1', '2'],
+            'price' => ['10000', '50000'],
+            'description' => ['product-desc', 'product-desc 2'],
+            'weight' => [1, 2], //optional (kilogram)
+            'height' => [10, 10], //optional (cm)
+            'length' => [30, 40], //optional (cm)
+            'width'  => [10, 50], //optional (cm)
         ]);
 
         $ipaymu->setCOD([
@@ -104,7 +111,11 @@ class PayController extends Controller
             'deliveryArea' => "76111",
             'deliveryAddress' => "Denpasar",
         ]);
-
-        $redirectPayment = $ipaymu->redirectPayment();
+        
+        $paymentData = [
+            'referenceId' => 1, //merchant reference (transaction id merchant) optional
+        ];
+        
+        $redirectPayment = $ipaymu->redirectPayment($paymentData);
     }
 }
