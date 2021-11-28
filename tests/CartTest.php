@@ -31,24 +31,30 @@ final class CartTest extends TestCase
         $faker = Factory::create();
         $iPaymu = new iPaymu($_SERVER['apiKey'], $_SERVER['va'], $_SERVER['production']);
 
-        for ($x = 0; $x <= 10; $x++) {
-            $carts = $iPaymu->add($faker->uuid, $faker->name, rand(1, 5), rand(10000, 1000000), $faker->name, rand(1, 5), rand(1, 5), rand(1, 5), rand(1, 5));
-        }
-        $response = $iPaymu->addCart($carts);
+        $response = $iPaymu->addCart([
+            'product' => ['product 1 ', 'product2 '],
+            'quantity' => ['1', '2'],
+            'price' => ['10000', '50000'],
+            'description' => ['product-desc', 'product-desc 2'],
+            'weight' => [1, 2], //nullable (kilogram)
+            'height' => [10, 10], //nullable (cm)
+            'length' => [30, 40], //nullable (cm)
+            'width'  => [10, 50], //nullable (cm)
+        ]);
     }
 
-    public function testRemoveProductFromCart()
-    {
-        $faker = Factory::create();
-        $iPaymu = new iPaymu($_SERVER['apiKey'], $_SERVER['va'], $_SERVER['production']);
+//     public function testRemoveProductFromCart()
+//     {
+//         $faker = Factory::create();
+//         $iPaymu = new iPaymu($_SERVER['apiKey'], $_SERVER['va'], $_SERVER['production']);
 
-        for ($x = 0; $x <= 10; $x++) {
-            $carts = $iPaymu->add($faker->uuid, $faker->name, rand(1, 5), rand(10000, 1000000), $faker->name, rand(1, 5), rand(1, 5), rand(1, 5), rand(1, 5));
-        }
-        $id = $faker->uuid;
-        $iPaymu->addCart($carts);
-        $iPaymu->remove($id);
-    }
+//         for ($x = 0; $x <= 10; $x++) {
+//             $carts = $iPaymu->add($faker->uuid, $faker->name, rand(1, 5), rand(10000, 1000000), $faker->name, rand(1, 5), rand(1, 5), rand(1, 5), rand(1, 5));
+//         }
+//         $id = $faker->uuid;
+//         $iPaymu->addCart($carts);
+//         $iPaymu->remove($id);
+//     }
 
     public function testCOD()
     {
@@ -79,22 +85,17 @@ final class CartTest extends TestCase
 
         $directPayment = $iPaymu->directPayment($directData);
     }
-    public function testreDirectPayment()
+    public function testRedirectPayment()
     {
         $iPaymu = new iPaymu($_SERVER['apiKey'], $_SERVER['va'], $_SERVER['production']);
         $this->testBuyer();
         $this->testURL();
         $this->testAddProductToCart();
         $this->testCOD();
-        $directData = [
-            'amount' => 50000,
-            'expired' => 24,
-            'expiredType' => 'hours',
-            'referenceId' => 10101011,
-            'paymentMethod' => 'va', //va, cstore
-            'paymentChannel' => 'bni', //bag, mandiri, cimb, bni, 
+        $paymentData = [
+            'referenceId' => 1,
         ];
 
-        $redirectPayment = $iPaymu->redirectPayment();
+        $redirectPayment = $iPaymu->redirectPayment($paymentData);
     }
 }
