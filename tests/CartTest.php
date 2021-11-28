@@ -43,19 +43,6 @@ final class CartTest extends TestCase
         ]);
     }
 
-    public function testRemoveProductFromCart()
-    {
-        $faker = Factory::create();
-        $iPaymu = new iPaymu($_SERVER['apiKey'], $_SERVER['va'], $_SERVER['production']);
-
-        for ($x = 0; $x <= 10; $x++) {
-            $carts = $iPaymu->add($faker->uuid, $faker->name, rand(1, 5), rand(10000, 1000000), $faker->name, rand(1, 5), rand(1, 5), rand(1, 5), rand(1, 5));
-        }
-        $id = $faker->uuid;
-        $iPaymu->addCart($carts);
-        $iPaymu->remove($id);
-    }
-
     public function testCOD()
     {
         $iPaymu = new iPaymu($_SERVER['apiKey'], $_SERVER['va'], $_SERVER['production']);
