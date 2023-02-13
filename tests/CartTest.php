@@ -79,7 +79,7 @@ final class CartTest extends TestCase
 
         $directPayment = $iPaymu->directPayment($directData);
     }
-    public function testreDirectPayment()
+    public function testRedirectPayment()
     {
         $iPaymu = new iPaymu($_SERVER['apiKey'], $_SERVER['va'], $_SERVER['production']);
         $this->testBuyer();

@@ -10,8 +10,7 @@
   "homepage": "https://github.com/ipaymu/ipaymu-php-api",
   "require-dev": {
     "fzaninotto/faker": "^1.9@dev",
-    "mockery/mockery": "^1.2.3",
-    "phpunit/phpunit": "5.7.*"
+    "mockery/mockery": "^1.2.3"
   },
   "autoload": {
     "psr-4": {
@@ -35,12 +34,13 @@
     "sort-packages": true
   },
   "require": {
+    "php": ">=5.3.0",
     "ext-curl": "*",
-    "php": ">=5.3.0"
+    "phpunit/phpunit": "10.1.x-dev"
   },
   "scripts": {
     "test": [
-      "@php vendor/bin/phpunit -c ./ --color"
+      "@php vendor/bin/phpunit --testdox -c ./ --color"
     ]
   }
 }
