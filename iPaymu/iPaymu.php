@@ -162,9 +162,9 @@ class iPaymu
      */
     public function setURL($url)
     {
-        $this->ureturn = $url['ureturn'] ?? '';
-        $this->ucancel = $url['ucancel'] ?? '';
-        $this->unotify = $url['unotify'] ?? '';
+        $this->ureturn = $url['ureturn'] ?? null;
+        $this->ucancel = $url['ucancel'] ?? null;
+        $this->unotify = $url['unotify'] ?? null;
     }
 
     /**
@@ -172,17 +172,17 @@ class iPaymu
      */
     public function setBuyer($buyer)
     {
-        $this->buyer['name'] = $buyer['name'] ?? '';
-        $this->buyer['phone'] = $buyer['phone'] ?? '';
-        $this->buyer['email'] = $buyer['email'] ?? '';
+        $this->buyer['name'] = $buyer['name'] ?? null;
+        $this->buyer['phone'] = $buyer['phone'] ?? null;
+        $this->buyer['email'] = $buyer['email'] ?? null;
     }
 
     public function setCOD($cod)
     {
-        $this->cod['pickupArea'] = $cod['pickupArea'] ?? '';
-        $this->cod['pickupAddress'] = $cod['pickupAddress'] ?? '';
-        $this->cod['deliveryArea'] = $cod['deliveryArea'] ?? '';
-        $this->cod['deliveryAddress'] = $cod['deliveryAddress'] ?? '';
+        $this->cod['pickupArea'] = $cod['pickupArea'] ?? null;
+        $this->cod['pickupAddress'] = $cod['pickupAddress'] ?? null;
+        $this->cod['deliveryArea'] = $cod['deliveryArea'] ?? null;
+        $this->cod['deliveryAddress'] = $cod['deliveryAddress'] ?? null;
     }
 
     /**

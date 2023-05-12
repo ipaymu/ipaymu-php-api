@@ -80,21 +80,22 @@ There are 2 payment methods: Payment Direct & Payment Redirect, with the followi
 - banktransfer => Transfer Bank
 - cstore => Convenience Store
 - cod => Cash on Delivery
+- qris => QRIS
 
 #### paymentChannel
 
 ##### va
 
 - bag => Bank Artha Graha
+- bni => Bank Central ASIA
 - bni => Bank Negara Indonesia
 - cimb => Bank Cimb Niaga
 - mandiri => Bank Mandiri
-- bri => Bank BRI
-- bca => Bank BCA
-
-##### banktransfer
-
-- bca => Bank Central Asia
+- bmi => Bank Muamalat Indonesia
+- bri => Bank Rakyat Indonesia
+- bsi => Bank Syariah Indonesia
+- permata => Bank Permata
+- danamon => Bank Danamon
 
 ##### cstore
 
@@ -105,6 +106,10 @@ There are 2 payment methods: Payment Direct & Payment Redirect, with the followi
 
 - rpx
 
+##### qris
+
+- qris
+
 ### Paramaters
 
 | Parameter Request | Description                                                                                               | Type            | Mandatory |
@@ -114,8 +119,8 @@ There are 2 payment methods: Payment Direct & Payment Redirect, with the followi
 | email             | Customer E-mail                                                                                           | string          | Y         |
 | phone             | Customer Phone                                                                                            | numeric         | Y         |
 | amount            | Total Amount (price \* qty)                                                                               | numeric         | Y         |
-| paymentMethod     | va, banktransfer, cstore, cod                                                                             | string          | Y         |
-| paymentChannel    | <p>"**va:**" bag, bni, cimb, mandiri, bri, bca</p><p>"**cstore:**" indomaret, alfamart </p>"**cod:**" rpx | string          | Y         |
+| paymentMethod     | va, cstore, cod, qris                                                                             | string          | Y         |
+| paymentChannel    | "**va:**" bag, bca, bni, cimb, mandiri, bmi, bri, bsi, permata, danamon "**cstore:**" indomaret, alfamart "**cod:**" rpx "**qris:**" qris  | string          | Y         |
 | notifyUrl         | Return url when payment success                                                                           | string          | Y         |
 | expired           | Expiration in hour                                                                                        | numeric         | N         |
 | description       | Text description                                                                                          | string          | N         |
@@ -137,11 +142,31 @@ There are 2 payment methods: Payment Direct & Payment Redirect, with the followi
 First, please add product to shopping cart first before using this method
 
 ```php
-$cart = $iPaymu->addCart([
-        'product' => 'product-name',
-        'quantity' => 'product-quantity',
-        'price' => 'product-price',
-]);
+$carts = [];
+$carts = $iPaymu->add(
+    'PROD0001', // product id (string)
+    'Jacket', // product name (string)
+    12000, // price (float)
+    2, // quantity (int)
+    'Size M', // description
+    1, // product weight (int) (optional)
+    1, // product length (int) (optional)
+    1, // product weight (int) (optional)
+    1 // product height (int) (optional)
+);
+$carts = $iPaymu->add(
+    'PROD0002', // product id (string)
+    'Shoe', // product name (string)
+    150000, // price (float)
+    2, // quantity (int)
+    'Size 8', // description
+    1, // product weight (int) (optional)
+    1, // product length (int) (optional)
+    1, // product weight (int) (optional)
+    1 // product height (int) (optional)
+);
+
+$iPaymu->addCart($carts);
 ```
 
 #### Set COD (Only if COD method)
@@ -153,12 +178,42 @@ $delivery = $iPaymu->setCOD([
 ]);
 ```
 
+#### Set Expired (for custom expired)
+
+```php
+// set your expiredPayment
+$iPaymu->setExpired(24, 'hours'); // 24 hours
+```
+
+#### Set Reference ID (optional)
+
+```php
+$iPaymu->setReferenceId('123123');
+```
+
+#### Set Payment Notes (optional)
+
+```php
+$iPaymu->setComments('Payment TRX01');
+```
+
 ### Payment Direct
 
 Payment direct method allows you to accept payment on your checkout page directly, this method works for any payment channel except for credit card.
 
+Set Payment Method and Payment Channel
+
 ```php
-$payment = $iPaymu->directPayment($directData);
+// set payment method
+// check https://ipaymu.com/api-collection for list payment method
+$iPaymu->setPaymentMethod('va');
+
+// check https://ipaymu.com/api-collection for list payment channel
+$iPaymu->setPaymentChannel('bca');
+```
+
+```php
+$payment = $iPaymu->directPayment();
 ```
 
 ### Payment Redirect
@@ -166,5 +221,139 @@ $payment = $iPaymu->directPayment($directData);
 In order accepting credit card, you must use Payment Redirect method. Upon checkout, you will be redirected to iPaymu.com payment page for further payment processing.
 
 ```php
-$payment = $iPaymu->redirectPayment($redirectData);
+$payment = $iPaymu->redirectPayment();
+```
+
+### Complete Code Example
+
+Direct Payment Example
+
+```php
+$apiKey = 'QbGcoO0Qds9sQFDmY0MWg1Tq.xtuh1'; // your api key
+$va = '1179000899'; // your va
+$production = true; // set false to sandbox mode
+
+$iPaymu = new iPaymu($apiKey, $va, $production);
+
+// set callback url
+$iPaymu->setURL([
+    'ureturn' => 'https://your-website/thankyou_page',
+    'unotify' => 'https://your-website/notify_page',
+    'ucancel' => 'https://your-website/cancel_page',
+]);
+
+// set buyer name
+$iPaymu->setBuyer([
+    'name' => 'Bagus',
+    'phone' => '08123123139',
+    'email' => 'bagus@gmail.com',
+]);
+
+// set your reference id (optional)
+$iPaymu->setReferenceId('123123');
+
+// set your expiredPayment
+$iPaymu->setExpired(24, 'hours'); // 24 hours
+
+// set payment method
+// check https://ipaymu.com/api-collection for list payment method
+$iPaymu->setPaymentMethod('va');
+
+// check https://ipaymu.com/api-collection for list payment channel
+$iPaymu->setPaymentChannel('bca');
+
+// payment notes (optional)
+$iPaymu->setComments('Payment TRX01');
+
+$carts = [];
+$carts = $iPaymu->add(
+    'PROD0001', // product id (string)
+    'Jacket', // product name (string)
+    12000, // price (float)
+    3, // quantity (int)
+    'Size M', // description
+    1, // product weight (int) (optional)
+    1, // product length (int) (optional)
+    1, // product weight (int) (optional)
+    1 // product height (int) (optional)
+);
+$carts = $iPaymu->add(
+    'PROD0002', // product id (string)
+    'Shoe', // product name (string)
+    150000, // price (float)
+    2, // quantity (int)
+    'Size 8', // description
+    1, // product weight (int) (optional)
+    1, // product length (int) (optional)
+    1, // product weight (int) (optional)
+    1 // product height (int) (optional)
+);
+
+$iPaymu->addCart($carts);
+
+return $iPaymu->directPayment();
+```
+
+Redirect Payment Example
+
+```php
+$apiKey = 'QbGcoO0Qds9sQFDmY0MWg1Tq.xtuh1'; // your api key
+$va = '1179000899'; // your va
+$production = true; // set false to sandbox mode
+
+$iPaymu = new iPaymu($apiKey, $va, $production);
+
+// set callback url
+$iPaymu->setURL([
+    'ureturn' => 'https://your-website/thankyou_page',
+    'unotify' => 'https://your-website/notify_page',
+    'ucancel' => 'https://your-website/cancel_page',
+]);
+
+// set buyer name
+$iPaymu->setBuyer([
+    'name' => 'Bagus',
+    'phone' => '08123123139',
+    'email' => 'bagus@gmail.com',
+]);
+
+// set your reference id (optional)
+$iPaymu->setReferenceId('123123');
+
+// set your expiredPayment
+$iPaymu->setExpired(24, 'hours'); // 24 hours
+
+// set cod param (optional)
+$iPaymu->setCOD([
+    'deliveryArea' => "76111",
+    'deliveryAddress' => "Denpasar",
+]);
+
+$carts = [];
+$carts = $iPaymu->add(
+    'PROD0001', // product id (string)
+    'Jacket', // product name (string)
+    12000, // price (float)
+    2, // quantity (int)
+    'Size M', // description
+    1, // product weight (int) (optional)
+    1, // product length (int) (optional)
+    1, // product weight (int) (optional)
+    1 // product height (int) (optional)
+);
+$carts = $iPaymu->add(
+    'PROD0002', // product id (string)
+    'Shoe', // product name (string)
+    150000, // price (float)
+    2, // quantity (int)
+    'Size 8', // description
+    1, // product weight (int) (optional)
+    1, // product length (int) (optional)
+    1, // product weight (int) (optional)
+    1 // product height (int) (optional)
+);
+
+$iPaymu->addCart($carts);
+
+return $iPaymu->redirectPayment();
 ```
