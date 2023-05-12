@@ -1,0 +1,1 @@
+{"version":1,"defects":[],"times":{"CartTest::testBuyer":0.029,"CartTest::testURL":0,"CartTest::testAddProductToCart":0,"CartTest::testRemoveProductFromCart":0,"CartTest::testCOD":0,"CartTest::testDirectPayment":0.931,"CartTest::testRedirectPayment":2.897,"GeneralTest::testCheckBalance":1.798}}

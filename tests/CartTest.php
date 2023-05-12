@@ -86,7 +86,7 @@ final class CartTest extends TestCase
         $this->testURL();
         $this->testAddProductToCart();
         $this->testCOD();
-        $directData = [
+        $redirectData = [
             'amount' => 50000,
             'expired' => 24,
             'expiredType' => 'hours',
