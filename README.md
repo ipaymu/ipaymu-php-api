@@ -87,7 +87,7 @@ There are 2 payment methods: Payment Direct & Payment Redirect, with the followi
 ##### va
 
 - bag => Bank Artha Graha
-- bni => Bank Central ASIA
+- bca => Bank Central ASIA
 - bni => Bank Negara Indonesia
 - cimb => Bank Cimb Niaga
 - mandiri => Bank Mandiri
