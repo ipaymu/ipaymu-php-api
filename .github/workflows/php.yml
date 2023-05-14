@@ -1,0 +1,26 @@
+name: PHP Composer
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: shivammathur/setup-php@2.16.0
+      with:
+        # Setup PHP version.
+        php-version: '7.0' # default is 8.1
+        tools: phpunit, composer:v2
+
+    - name: Install dependencies
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+        
+    - name: Make Test
+      run: composer test
